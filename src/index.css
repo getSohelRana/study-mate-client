@@ -1,0 +1,24 @@
+/* Import Google Fonts*/
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+/* Import Tailwind*/
+@import "tailwindcss";
+
+/*DaisyUI Theme Setup*/
+@plugin "daisyui";
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #00c497;
+  --color-secondary: #313647;
+  --color-base-100: #f1f2f4;
+  --color-base-200: #b7e5cd;
+  --color-base-300: #696fc7;
+}
+
+/*Global Styles*/
+body {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
