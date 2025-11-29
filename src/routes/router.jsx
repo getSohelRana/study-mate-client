@@ -1,0 +1,53 @@
+import React from "react";
+import { createBrowserRouter } from "react-router";
+import MainLayout from "../layout/MainLayout";
+import Home from "../pages/Home";
+import FindPartners from "../pages/FindPartners";
+import CreatePartnerProfile from "../pages/CreatePartnerProfile";
+import MyConnections from "../pages/MyConnections";
+import SignIn from "../components/signIn/SignIn";
+import SignUp from "../components/signUp/SignUp";
+import PrivateRoutes from "../provider/PrivateRoutes";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    Component: MainLayout,
+    children: [
+      {
+        index: true,
+        element: <Home></Home>,
+      },
+      {
+        path: "/find-partners",
+        element: <FindPartners></FindPartners>,
+      },
+      {
+        path: "/create-partner-profile",
+        element: (
+          <PrivateRoutes>
+            <CreatePartnerProfile></CreatePartnerProfile>
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/my-connection",
+        element: (
+          <PrivateRoutes>
+            <MyConnections></MyConnections>
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/sign-in",
+        element: <SignIn></SignIn>,
+      },
+      {
+        path: "/sign-up",
+        element: <SignUp></SignUp>,
+      },
+    ],
+  },
+]);
+
+export default router;
