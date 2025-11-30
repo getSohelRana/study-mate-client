@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Sign up in minutes",
+    "desc": "Create your StudyMate account and choose your subjects, academic level, and learning preferences.",
+    "img": "https://i.ibb.co.com/PZ1Cwc0D/signup.png"
+  },
+  {
+    "id": 2,
+    "title": "Get matched with study partners",
+    "desc": "StudyMate analyzes your preferences to recommend suitable study partners with similar learning goals.",
+    "img": "https://i.ibb.co.com/gMpdC0RY/match.png"
+  },
+  {
+    "id": 3,
+    "title": "Collaborate & study together",
+    "desc": "Chat, share notes, join study rooms, and collaborate in real time to enhance your learning experience.",
+    "img": "https://i.ibb.co.com/gbBZTrYn/collaborates.png"
+  },
+  {
+    "id": 4,
+    "title": "Track your academic progress",
+    "desc": "Set goals, track study hours, earn badges, and stay motivated throughout your learning journey.",
+    "img": "https://i.ibb.co.com/RT66ndCS/work-in-progress.png"
+  }
+]

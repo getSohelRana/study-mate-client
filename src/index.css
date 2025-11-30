@@ -68,4 +68,8 @@ body {
     background-color: transparent !important;
     color: #00c497 !important;
   }
+  /* Custom swiper bullet bg */
+  .swiper-pagination-bullet{
+    background-color: #00c497 !important;
+  }
 }
