@@ -2,7 +2,7 @@ import React from 'react';
 
 const StepCard = ({step}) => {
   const {id , title , img} = step || {}
-  console.log(img)
+  
   return (
      <div className="card bg-white shadow-xl p-5 rounded-xl text-center relative hover:scale-105 transition-all duration-300">
       <div className="flex justify-center mb-3">

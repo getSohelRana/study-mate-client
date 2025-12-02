@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Ayesha",
+    "role": "College Student",
+    "message": "StudyMate completely changed how I study. I found a partner who studies the same subjects and we keep each other motivated. My grades improved within weeks!",
+    "img": "https://i.ibb.co/V00q9zMK/student12.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Rahul",
+    "role": "University Student",
+    "message": "The study rooms and note-sharing features are amazing. I no longer study alone — StudyMate helps me stay focused and consistent every day.",
+    "img": "https://i.ibb.co/0jGVGkPk/student5.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Sara",
+    "role": "School Student",
+    "message": "Finding someone with the same learning style was difficult before StudyMate. Now I have a perfect study buddy, and studying actually feels fun.",
+    "img": "https://i.ibb.co/VYSdXZdm/student2.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Imran",
+    "role": "HSC Student",
+    "message": "I love how StudyMate matches you with the right partner. It feels like having a personal learning companion who helps me stay on track.",
+    "img": "https://i.ibb.co/8L4db1kS/student15.jpg"
+  }
+]
+
+
