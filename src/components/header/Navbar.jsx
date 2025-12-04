@@ -1,29 +1,50 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Link, NavLink } from "react-router";
-import logo from "../../assets/logo.png";
-import AuthContext from "../../provider/AuthContext";
-import userIcon from "../../assets/user.png";
-import ThemeSwitcher from "../theme/ThemeSwitcher";
 import Swal from "sweetalert2";
+import logo from "../../assets/logo.png";
+import userIcon from "../../assets/user.png";
+import AuthContext from "../../provider/AuthContext";
+import ThemeSwitcher from "../theme/ThemeSwitcher";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
-  
 
   // handle sign out
   const handleSignOut = () => {
     logOut()
       .then(() => {
-        Swal.fire({
-          position: "top-left",
-          icon: "success",
-          title: "Signed out successfully",
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
           showConfirmButton: false,
-          timer: 1500,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          icon: "success",
+          title: "Loged out done!",
         });
       })
       .catch((error) => {
-        console.log(error);
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          icon: "success",
+          title: `Sign in failed!, ${error}!`,
+        });
       });
   };
 
@@ -112,7 +133,9 @@ const Navbar = () => {
                   className="dropdown-content menu bg-base-100 rounded-box z-1 w-35 lg:w-52 p-2 shadow-sm"
                 >
                   <li>
-                    <Link to="/" className="btn btn-primary mb-2">View Profile</Link>
+                    <Link to="/" className="btn btn-primary mb-2">
+                      View Profile
+                    </Link>
                   </li>
                   <li>
                     <button
