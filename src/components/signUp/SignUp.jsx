@@ -1,23 +1,52 @@
 import React, { use } from "react";
-import { Link } from "react-router";
-import signUpImg from "../../assets/signup.svg"
+import { Link, useNavigate } from "react-router";
+import signUpImg from "../../assets/signup.svg";
 import AuthContext from "../../provider/AuthContext";
+import Swal from "sweetalert2";
 const SignUp = () => {
-  const {signInWithGoogle} = use(AuthContext)
+  const { signInWithGoogle } = use(AuthContext);
+  const navigate = useNavigate();
   // sign in with google
   const handleSignInGoogle = () => {
     signInWithGoogle()
-    .then(result => {
-      console.log(result)
-    })
-    .catch((error) => {
-    // Handle Errors here.
-    // const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(errorMessage)
-   
-  });
-  }
+      .then((res) => {
+        const user = res.user;
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          icon: "success",
+          title: `Account creatd successfully, ${user.displayName || "User"}!`,
+        });
+        navigate(`${location.state ? location.state : "/"}`);
+      })
+      .catch((error) => {
+        // show alert on sweetalert
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          icon: "success",
+          title: `Sign in failed!, ${error}!`,
+        });
+      });
+  };
   return (
     <div className="min-h-screen flex flex-col lg:flex-row py-20 gap-4 ">
       {/* LEFT SIDE */}
@@ -58,7 +87,7 @@ const SignUp = () => {
 
           {/* FORM */}
           <div className="form-control gap-3">
-            <form >
+            <form>
               <fieldset>
                 {/* Name */}
                 <label className="label">Name</label>
@@ -108,12 +137,8 @@ const SignUp = () => {
                 >
                   Sign Up
                 </button>
-
-               
               </fieldset>
             </form>
-
-            
 
             <p className="text-center mt-4 text-sm">
               Already have an account?{" "}
@@ -127,7 +152,10 @@ const SignUp = () => {
 
             <div className="divider">or</div>
             {/* GOOGLE BUTTON */}
-            <button onClick={handleSignInGoogle}  className="btn w-full mt-3 bg-white border text-gray-700 hover:bg-gray-100">
+            <button
+              onClick={handleSignInGoogle}
+              className="btn w-full mt-3 bg-white border text-gray-700 hover:bg-gray-100"
+            >
               <img
                 src="https://www.svgrepo.com/show/475656/google-color.svg"
                 alt="google"

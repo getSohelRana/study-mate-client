@@ -37,7 +37,7 @@ body {
   [data-theme="dark"] .navbar a {
     color: #000 !important;
   }
-  [data-theme="dark"]{
+  [data-theme="dark"] {
     /* color: #fff; */
   }
 
@@ -69,7 +69,23 @@ body {
     color: #00c497 !important;
   }
   /* Custom swiper bullet bg */
-  .swiper-pagination-bullet{
+  .swiper-pagination-bullet {
     background-color: #00c497 !important;
+  }
+  /* Play Icon Shadow Animation */
+  @keyframes playShadow {
+    0% {
+      box-shadow: 0 0 0 0 rgb(93, 206, 148);
+    }
+    70% {
+      box-shadow: 0 0 0 12px rgba(59, 130, 246, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    }
+  }
+
+  .animate-play-shadow {
+    animation: playShadow 1.8s infinite ease-out;
   }
 }

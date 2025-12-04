@@ -1,9 +1,140 @@
-import React from 'react';
+import React, { useContext } from "react";
+import { Link, useNavigate, useLocation } from "react-router";
+import img3 from "../../assets/slider5.png";
+import AuthContext from "../../provider/AuthContext";
+import Swal from "sweetalert2";
 
 const SignIn = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { signInWithGoogle } = useContext(AuthContext);
+
+  //sign with email and password
+
+
+  // Google Sign-In
+  const handleSignInGoogle = () => {
+    signInWithGoogle()
+      .then((res) => {
+        const user = res.user;
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          icon: "success",
+          title: `Account creatd successfully, ${user.displayName || "User"}!`,
+        });
+        navigate(`${location.state ? location.state : '/' }`);
+      })
+      .catch((error) => {
+        // console.log(error.message);
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          icon: "success",
+          title: `Sign in failed!, ${error}!`,
+        });
+
+      });
+  };
+
   return (
-    <div>
-      
+    <div className="min-h-screen flex flex-col lg:flex-row py-20 gap-4">
+      {/* LEFT SIDE */}
+      <div className="lg:w-1/2 w-full bg-linear-to-l from-[#b7e5cd] to-[#00c497] p-10 flex flex-col justify-center rounded-xl">
+        <h1 className="text-4xl font-bold mb-4 text-center text-white">
+          Welcome to studyMate!
+        </h1>
+
+        <div>
+          <img src={img3} alt="" />
+        </div>
+      </div>
+
+      {/* RIGHT SIDE */}
+      <div className="lg:w-1/2 w-full flex justify-center items-center p-10 bg-white rounded-xl">
+        <div className="w-full max-w-md">
+          <h2 className="text-3xl font-bold text-center text-primary">
+            Sign In
+          </h2>
+
+          {/* FORM */}
+          <div className="form-control gap-3">
+            <form>
+              <fieldset>
+                {/* Email */}
+                <label className="label">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  className="input w-full"
+                  placeholder="Email"
+                />
+
+                {/* Password */}
+                <label className="label mt-3">Password</label>
+                <div className="relative">
+                  <input
+                    type="password"
+                    name="password"
+                    className="input w-full"
+                    placeholder="Password"
+                  />
+                </div>
+
+                <button
+                  className="btn bg-[#00c497] text-white mt-3 w-full"
+                  type="submit"
+                >
+                  Sign In
+                </button>
+              </fieldset>
+            </form>
+
+            <p className="text-center mt-4 text-sm">
+              Don't have an account?{" "}
+              <Link
+                to="/sign-up"
+                className="text-primary font-semibold hover:underline"
+              >
+                Sign Up
+              </Link>
+            </p>
+
+            <div className="divider">or</div>
+
+            {/* GOOGLE BUTTON */}
+            <button
+              onClick={handleSignInGoogle}
+              className="btn w-full mt-3 bg-white border text-gray-700 hover:bg-gray-100"
+            >
+              <img
+                src="https://www.svgrepo.com/show/475656/google-color.svg"
+                alt="google"
+                className="w-5"
+              />
+              Sign in with Google
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
