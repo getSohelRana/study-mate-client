@@ -11,12 +11,29 @@ const SignIn = () => {
 
   //sign with email and password
 
-
   // Google Sign-In
   const handleSignInGoogle = () => {
     signInWithGoogle()
       .then((res) => {
         const user = res.user;
+
+        const newUser = {
+          name: res.user.displayName,
+          email: res.user.email,
+          image: res.user.photoURL,
+        };
+        // create user on databse
+        fetch("http://localhost:5000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("data afer saving", data);
+          });
         const Toast = Swal.mixin({
           toast: true,
           position: "top-end",
@@ -32,7 +49,7 @@ const SignIn = () => {
           icon: "success",
           title: `Account creatd successfully, ${user.displayName || "User"}!`,
         });
-        navigate(`${location.state ? location.state : '/' }`);
+        navigate(`${location.state ? location.state : "/"}`);
       })
       .catch((error) => {
         // console.log(error.message);
@@ -51,7 +68,6 @@ const SignIn = () => {
           icon: "success",
           title: `Sign in failed!, ${error}!`,
         });
-
       });
   };
 

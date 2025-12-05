@@ -11,6 +11,25 @@ const SignUp = () => {
     signInWithGoogle()
       .then((res) => {
         const user = res.user;
+
+        const newUser = {
+          name: res.user.displayName,
+          email: res.user.email,
+          image: res.user.photoURL,
+        };
+        // create user on databse
+        fetch("http://localhost:5000/users" , {
+          method : "POST",
+          headers : {
+            'content-type' : 'application/json'
+          },
+          body : JSON.stringify(newUser)
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("data afer saving" , data)
+        })
+        // show success login notification
         const Toast = Swal.mixin({
           toast: true,
           position: "top-end",
