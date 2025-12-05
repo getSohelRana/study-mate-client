@@ -8,6 +8,7 @@ import MyConnections from "../pages/MyConnections";
 import SignIn from "../components/signIn/SignIn";
 import SignUp from "../components/signUp/SignUp";
 import PrivateRoutes from "../provider/PrivateRoutes";
+import StudentProfile from "../components/studentProfile/StudentProfile";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,11 @@ const router = createBrowserRouter([
         path: "/sign-up",
         element: <SignUp></SignUp>,
       },
+      {
+        path : "/student-profile/:id",
+        loader : ({params}) => fetch(`http://localhost:5000/students/${params.id}`),
+        element : <StudentProfile></StudentProfile>
+      }
     ],
   },
 ]);

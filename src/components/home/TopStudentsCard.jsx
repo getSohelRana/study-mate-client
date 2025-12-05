@@ -1,9 +1,10 @@
 import React from "react";
 import { FaRegStar } from "react-icons/fa";
 import { SiLevelsdotfyi } from "react-icons/si";
+import { Link } from "react-router";
 
 const TopStudentsCard = ({ topStudent }) => {
-  const { name, profileimage, subject, experienceLevel, rating } =
+  const {_id, name, profileimage, subject, experienceLevel, rating } =
     topStudent || {};
   return (
     <div className="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
@@ -41,6 +42,9 @@ const TopStudentsCard = ({ topStudent }) => {
           </span>
           <p className="text-gray-600 ">{rating}</p>
         </div>
+      </div>
+      <div className="mt-4">
+      <Link to={`/student-profile/${_id}`} className="btn w-full rounded-3xl"> View Profile</Link>
       </div>
     </div>
   );

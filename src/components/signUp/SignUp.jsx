@@ -1,11 +1,138 @@
-import React, { use } from "react";
-import { Link, useNavigate } from "react-router";
+import React, { use, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router";
 import signUpImg from "../../assets/signup.svg";
 import AuthContext from "../../provider/AuthContext";
 import Swal from "sweetalert2";
 const SignUp = () => {
-  const { signInWithGoogle } = use(AuthContext);
+  const { user, signInWithGoogle, createUser } = use(AuthContext);
+  const location = useLocation();
   const navigate = useNavigate();
+  const [error, setError] = useState("");
+
+  // create users
+
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    /* Name data validation */
+    const name = e.target.name.value.trim();
+    if (name.length < 5) {
+      setError("Name must be 5 characters");
+      return;
+    } else {
+      setError("");
+    }
+    /* check photo and email empty */
+    const photo = e.target.photo.value.trim();
+    const email = e.target.email.value.trim();
+    if (!photo || !email) {
+      // toast.error("🤦‍♂️ Oops! Some fields are missing. Please fill them in.");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        },
+      });
+      Toast.fire({
+        icon: "warning",
+        title: "Oops! Some fields are missing. Please fill them in",
+      });
+      return;
+    }
+    /* Password validation */
+    const password = e.target.password.value.trim();
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    } else {
+      setError("");
+    }
+    if (!/[A-Z]/.test(password)) {
+      setError("Password must contain at least one uppercase letter.");
+      return;
+    } else {
+      setError("");
+    }
+
+    if (!/[a-z]/.test(password)) {
+      setError("Password must contain at least one lowercase letter.");
+      return;
+    } else {
+      setError("");
+    }
+
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      setError("Password must contain at least one special character.");
+      return;
+    } else {
+      setError("");
+    }
+    //firebae user create
+    createUser(email, password)
+      .then((res) => {
+        const user = res.user;
+        // console.log(user)
+        // show success login notification
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          icon: "success",
+          title: `Account creatd successfully, ${user.displayName || "User"}!`,
+        });
+        navigate(`${location.state ? location.state : "/"}`);
+      })
+      .catch((error) => {
+        // console.log(error);
+        // Firebase error code
+        const errorCode = error.code;
+
+        //Custom error message replace custom message
+        const errorMessages = {
+          "auth/email-already-in-use":
+            "This email is already registered. Please log in instead.",
+          "auth/invalid-email":
+            "Invalid email address. Please enter a valid one.",
+        };
+
+        // Show custom error message
+        const customMessage =
+          errorMessages[errorCode] ||
+          "Something went wrong. Please try again later.";
+
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          icon: "error",
+          title: `${error(customMessage)}!`,
+        });
+      });
+    // reset form data
+    e.target.reset();
+  };
+
   // sign in with google
   const handleSignInGoogle = () => {
     signInWithGoogle()
@@ -18,17 +145,17 @@ const SignUp = () => {
           image: res.user.photoURL,
         };
         // create user on databse
-        fetch("http://localhost:5000/users" , {
-          method : "POST",
-          headers : {
-            'content-type' : 'application/json'
+        fetch("http://localhost:5000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
           },
-          body : JSON.stringify(newUser)
+          body: JSON.stringify(newUser),
         })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log("data afer saving" , data)
-        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("data afer saving", data);
+          });
         // show success login notification
         const Toast = Swal.mixin({
           toast: true,
@@ -94,6 +221,7 @@ const SignUp = () => {
             />
           </div>
           <p className="text-lg font-medium">9.5k members</p>
+          {/* <p className="text-lg font-medium">{user.length} members</p> */}
         </div>
       </div>
 
@@ -106,7 +234,7 @@ const SignUp = () => {
 
           {/* FORM */}
           <div className="form-control gap-3">
-            <form>
+            <form onSubmit={handleSignUp}>
               <fieldset>
                 {/* Name */}
                 <label className="label">Name</label>
@@ -116,7 +244,6 @@ const SignUp = () => {
                   className="input w-full"
                   placeholder="Name"
                 />
-                <small className="text-error">{}</small>
                 {/* Photo URL */}
                 <label className="label mt-3">Photo URL</label>
                 <input
@@ -149,7 +276,7 @@ const SignUp = () => {
                 </button> */}
                 </div>
                 {/* <small className="text-error">{passwordError}</small> */}
-
+                <small className="text-error">{error}</small>
                 <button
                   className="btn bg-[#00c497] text-white mt-3 w-full"
                   type="submit"
