@@ -3,11 +3,14 @@ import { Link, useLocation, useNavigate } from "react-router";
 import signUpImg from "../../assets/signup.svg";
 import AuthContext from "../../provider/AuthContext";
 import Swal from "sweetalert2";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 const SignUp = () => {
-  const { user, signInWithGoogle, createUser } = use(AuthContext);
+  const { signInWithGoogle, createUser, updateUserProfile, setUser } =
+    use(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const [togglePassword, setTogglePassword] = useState("");
 
   // create users
 
@@ -76,6 +79,27 @@ const SignUp = () => {
     createUser(email, password)
       .then((res) => {
         const user = res.user;
+        // update profile data
+
+        /* Save user info in database */
+        const newUser = {
+          name: res.user.displayName,
+          email: res.user.email,
+          image: res.user.photoURL,
+        };
+        // create user on databse
+        fetch("http://localhost:5000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("data afer saving", data);
+          });
+
         // console.log(user)
         // show success login notification
         const Toast = Swal.mixin({
@@ -221,7 +245,6 @@ const SignUp = () => {
             />
           </div>
           <p className="text-lg font-medium">9.5k members</p>
-          {/* <p className="text-lg font-medium">{user.length} members</p> */}
         </div>
       </div>
 
@@ -266,14 +289,22 @@ const SignUp = () => {
                 <label className="label mt-3">Password</label>
                 <div className="relative">
                   <input
-                    // type= {togglePassword ? 'text' : 'password'}
+                    type={togglePassword ? "text" : "password"}
                     name="password"
                     className="input w-full"
                     placeholder="Password"
                   />
-                  {/* <button onClick={()=> setTogglePassword(!togglePassword)} type="button" className="btn absolute top-0 right-4 z-1">
-                  {togglePassword ? <IoEyeOutline size={20} /> : <IoEyeOffOutline size={20} />}
-                </button> */}
+                  <button
+                    onClick={() => setTogglePassword(!togglePassword)}
+                    type="button"
+                    className="btn absolute top-0 right-0 z-1"
+                  >
+                    {togglePassword ? (
+                      <IoEyeOutline size={20} />
+                    ) : (
+                      <IoEyeOffOutline size={20} />
+                    )}
+                  </button>
                 </div>
                 {/* <small className="text-error">{passwordError}</small> */}
                 <small className="text-error">{error}</small>

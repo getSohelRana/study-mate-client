@@ -9,6 +9,7 @@ import SignIn from "../components/signIn/SignIn";
 import SignUp from "../components/signUp/SignUp";
 import PrivateRoutes from "../provider/PrivateRoutes";
 import StudentProfile from "../components/studentProfile/StudentProfile";
+import ForgetPassword from "../components/forgetPassword/ForgetPassword";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "/sign-in",
         element: <SignIn></SignIn>,
+      },
+      {
+        path : "/forget-password",
+        element : <ForgetPassword></ForgetPassword>
       },
       {
         path: "/sign-up",

@@ -1,14 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import img3 from "../../assets/slider5.png";
 import AuthContext from "../../provider/AuthContext";
 import Swal from "sweetalert2";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { signInWithGoogle } = useContext(AuthContext);
-
+  const [togglePassword, setTogglePassword] = useState("");
   //sign with email and password
 
   // Google Sign-In
@@ -108,11 +109,22 @@ const SignIn = () => {
                 <label className="label mt-3">Password</label>
                 <div className="relative">
                   <input
-                    type="password"
+                    type={togglePassword ? "text" : "password"}
                     name="password"
                     className="input w-full"
                     placeholder="Password"
                   />
+                  <button
+                    onClick={() => setTogglePassword(!togglePassword)}
+                    type="button"
+                    className="btn absolute top-0 right-0 z-1"
+                  >
+                    {togglePassword ? (
+                      <IoEyeOutline size={20} />
+                    ) : (
+                      <IoEyeOffOutline size={20} />
+                    )}
+                  </button>
                 </div>
 
                 <button
@@ -124,15 +136,25 @@ const SignIn = () => {
               </fieldset>
             </form>
 
-            <p className="text-center mt-4 text-sm">
-              Don't have an account?{" "}
-              <Link
-                to="/sign-up"
-                className="text-primary font-semibold hover:underline"
-              >
-                Sign Up
-              </Link>
-            </p>
+            <div className="flex justify-between">
+              <p className="text-center mt-4 text-sm">
+                <Link
+                  to="/forget-password"
+                  className="text-primary font-semibold hover:underline"
+                >
+                  Forgot Password
+                </Link>
+              </p>
+              <p className="text-center mt-4 text-sm">
+                Don't have an account?{" "}
+                <Link
+                  to="/sign-up"
+                  className="text-primary font-semibold hover:underline"
+                >
+                  Sign Up
+                </Link>
+              </p>
+            </div>
 
             <div className="divider">or</div>
 
