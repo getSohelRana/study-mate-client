@@ -28,7 +28,6 @@ const SignUp = () => {
     const photo = e.target.photo.value.trim();
     const email = e.target.email.value.trim();
     if (!photo || !email) {
-      // toast.error("🤦‍♂️ Oops! Some fields are missing. Please fill them in.");
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -101,7 +100,7 @@ const SignUp = () => {
           });
 
         // console.log(user)
-        // show success login notification
+        // show success sign up notification
         const Toast = Swal.mixin({
           toast: true,
           position: "top-end",

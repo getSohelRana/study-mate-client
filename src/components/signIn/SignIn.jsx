@@ -8,10 +8,77 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 const SignIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { signInWithGoogle } = useContext(AuthContext);
+  const { signInWithGoogle, signInUser } = useContext(AuthContext);
   const [togglePassword, setTogglePassword] = useState("");
-  //sign with email and password
 
+  //sign with email and password
+  const handleSignIn = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value.trim();
+    const password = e.target.password.value.trim();
+    
+    // check email and password empty
+    if (!email|| !password) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        },
+      });
+      Toast.fire({
+        icon: "warning",
+        title: "Oops! Some fields are missing. Please fill them in",
+      });
+      return;
+    }
+    signInUser(email, password)
+      .then((res) => {
+        // console.log(res)
+        const user = res.user;
+        // show success sign in notification
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          icon: "success",
+          title: `Login successfully done, ${user.displayName || "User"}!`,
+        });
+        navigate(`${location.state ? location.state : "/"}`);
+      })
+      .catch((error) => {
+        // console.log(error);
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          icon: "error",
+          title: `${error}!`,
+        });
+      });
+    // reset input fields
+    e.target.reset();
+  };
   // Google Sign-In
   const handleSignInGoogle = () => {
     signInWithGoogle()
@@ -94,7 +161,7 @@ const SignIn = () => {
 
           {/* FORM */}
           <div className="form-control gap-3">
-            <form>
+            <form onSubmit={handleSignIn}>
               <fieldset>
                 {/* Email */}
                 <label className="label">Email</label>
