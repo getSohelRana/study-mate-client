@@ -11,6 +11,7 @@ const ForgetPassword = () => {
   const [error, setError] = useState("");
   // reset password
   const handleReset = (e) => {
+    e.preventDefault();
     // checm empty
     if (!email) {
       setError("Please enter your registered email.");
@@ -35,10 +36,13 @@ const ForgetPassword = () => {
             toast.onmouseleave = Swal.resumeTimer;
           },
         });
+
         Toast.fire({
           icon: "success",
           title: "Password reset link successfully send your email",
         });
+        // clear input
+        setEmail("");
       })
       .catch((error) => {
         // console.log(error);
@@ -59,8 +63,8 @@ const ForgetPassword = () => {
           title: `${error}!`,
         });
       });
-      // reset email 
-      e.target.reset();
+    // reset email
+    e.target.reset();
   };
   return (
     <div>
@@ -74,34 +78,36 @@ const ForgetPassword = () => {
             </p>
           </div>
 
-          {/* Email Input */}
-          <label className="form-control w-full">
-            <span className="label-text mb-1">Enter your email</span>
-            <input
-              type="email"
-              placeholder="type your registered email here"
-              className="input input-bordered w-full rounded-xl focus:outline-0 focus:border-primary"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </label>
+          <form onSubmit={handleReset}>
+            {/* Email Input */}
+            <label className="form-control w-full">
+              <span className="label-text mb-1">Enter your email</span>
+              <input
+                type="email"
+                placeholder="type your registered email here"
+                className="input input-bordered w-full rounded-xl focus:outline-0 focus:border-primary"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </label>
 
-          {/* Error Message */}
-          <div className="my-2">
-            {error && (
-              <div className="alert alert-error text-white rounded-xl text-sm py-3">
-                <span>{error}</span>
-              </div>
-            )}
-          </div>
+            {/* Error Message */}
+            <div className="my-2">
+              {error && (
+                <div className="alert alert-error text-white rounded-xl text-sm py-3">
+                  <span>{error}</span>
+                </div>
+              )}
+            </div>
 
-          {/* Reset Button */}
-          <button
-            className="btn bg-primary hover:bg-base-200 text-white w-full rounded-xl py-3 text-base mt-3"
-            onClick={handleReset}
-          >
-            Reset Password
-          </button>
+            {/* Reset Button */}
+            <button
+              className="btn bg-primary hover:bg-base-200 text-white w-full rounded-xl py-3 text-base mt-3"
+              onClick={handleReset}
+            >
+              Reset Password
+            </button>
+          </form>
 
           {/* Back to Login  or go to gmail*/}
           <div className="flex justify-between mt-5">
