@@ -4,6 +4,7 @@ import signUpImg from "../../assets/signup.svg";
 import AuthContext from "../../provider/AuthContext";
 import Swal from "sweetalert2";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import showToast from "../../utilities/toast";
 const SignUp = () => {
   const { signInWithGoogle, createUser, updateUserProfile, setUser } =
     use(AuthContext);
@@ -28,21 +29,7 @@ const SignUp = () => {
     const photo = e.target.photo.value.trim();
     const email = e.target.email.value.trim();
     if (!photo || !email) {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.onmouseenter = Swal.stopTimer;
-          toast.onmouseleave = Swal.resumeTimer;
-        },
-      });
-      Toast.fire({
-        icon: "warning",
-        title: "Oops! Some fields are missing. Please fill them in",
-      });
+      showToast("warning", "Oops! Some fields are missing. Please fill them in")
       return;
     }
     /* Password validation */
@@ -100,22 +87,7 @@ const SignUp = () => {
           });
 
         // console.log(user)
-        // show success sign up notification
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          },
-        });
-        Toast.fire({
-          icon: "success",
-          title: `Account creatd successfully, ${user.displayName || "User"}!`,
-        });
+        showToast("success" , `Account creatd successfully, ${user.displayName || "User"}!`)
         navigate(`${location.state ? location.state : "/"}`);
       })
       .catch((error) => {
@@ -135,22 +107,7 @@ const SignUp = () => {
         const customMessage =
           errorMessages[errorCode] ||
           "Something went wrong. Please try again later.";
-
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          },
-        });
-        Toast.fire({
-          icon: "error",
-          title: `${error(customMessage)}!`,
-        });
+        showToast("error", `${error(customMessage)}!`)
       });
     // reset form data
     e.target.reset();

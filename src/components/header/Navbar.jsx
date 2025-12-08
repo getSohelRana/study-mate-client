@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { Link, NavLink } from "react-router";
-import Swal from "sweetalert2";
 import logo from "../../assets/logo.png";
 import userIcon from "../../assets/user.png";
 import AuthContext from "../../provider/AuthContext";
 import ThemeSwitcher from "../theme/ThemeSwitcher";
+import showToast from "../../utilities/toast";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -13,38 +13,10 @@ const Navbar = () => {
   const handleSignOut = () => {
     logOut()
       .then(() => {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          },
-        });
-        Toast.fire({
-          icon: "success",
-          title: "Loged out done!",
-        });
+        showToast("success", "Loged out done!")
       })
       .catch((error) => {
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          },
-        });
-        Toast.fire({
-          icon: "success",
-          title: `Sign in failed!, ${error}!`,
-        });
+        showToast("error", `Sign in failed!, ${error}!`)
       });
   };
 

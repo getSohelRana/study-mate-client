@@ -2,8 +2,8 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import img3 from "../../assets/slider5.png";
 import AuthContext from "../../provider/AuthContext";
-import Swal from "sweetalert2";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import showToast from "../../utilities/toast";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -16,65 +16,21 @@ const SignIn = () => {
     e.preventDefault();
     const email = e.target.email.value.trim();
     const password = e.target.password.value.trim();
-    
+
     // check email and password empty
     if (!email|| !password) {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.onmouseenter = Swal.stopTimer;
-          toast.onmouseleave = Swal.resumeTimer;
-        },
-      });
-      Toast.fire({
-        icon: "warning",
-        title: "Oops! Some fields are missing. Please fill them in",
-      });
+      showToast('warning' , 'Oops! Some fields are missing. Please fill them in')
       return;
     }
     signInUser(email, password)
       .then((res) => {
         // console.log(res)
         const user = res.user;
-        // show success sign in notification
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          },
-        });
-        Toast.fire({
-          icon: "success",
-          title: `Login successfully done, ${user.displayName || "User"}!`,
-        });
+        showToast('success' , `Login successfully done, ${user.displayName || "User"}!` )
         navigate(`${location.state ? location.state : "/"}`);
       })
       .catch((error) => {
-        // console.log(error);
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          },
-        });
-        Toast.fire({
-          icon: "error",
-          title: `${error}!`,
-        });
+        showToast("error", `${error}!`)
       });
     // reset input fields
     e.target.reset();
@@ -102,40 +58,11 @@ const SignIn = () => {
           .then((data) => {
             console.log("data afer saving", data);
           });
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          },
-        });
-        Toast.fire({
-          icon: "success",
-          title: `Account creatd successfully, ${user.displayName || "User"}!`,
-        });
+        showToast("success", `Account creatd successfully, ${user.displayName || "User"}!`)
         navigate(`${location.state ? location.state : "/"}`);
       })
       .catch((error) => {
-        // console.log(error.message);
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          },
-        });
-        Toast.fire({
-          icon: "success",
-          title: `Sign in failed!, ${error}!`,
-        });
+        showToast("success", `${error}!`)
       });
   };
 
