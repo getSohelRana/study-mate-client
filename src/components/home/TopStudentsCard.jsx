@@ -1,4 +1,3 @@
-import React from "react";
 import { FaRegStar } from "react-icons/fa";
 import { SiLevelsdotfyi } from "react-icons/si";
 import { Link } from "react-router";
