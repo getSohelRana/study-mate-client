@@ -49,7 +49,7 @@ const StudentProfile = () => {
         </p>
         <p className='flex items-center justify-center gap-2'>
           <FaRegStar />
-          <strong>Rating:</strong> {rating} / 10
+          <strong>Rating:</strong> {rating} 
         </p>
         <p className='flex items-center justify-center gap-2'>
           <FaUsers></FaUsers>
