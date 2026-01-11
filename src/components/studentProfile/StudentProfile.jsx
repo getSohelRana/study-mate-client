@@ -57,13 +57,6 @@ const StudentProfile = () => {
           </p>
       </div>
 
-       {/* Actions  */}
-      <div class="card-actions mt-4 w-full">
-        <button class="btn btn-primary w-full">
-          Contact Tutor
-        </button>
-      </div>
-
       <p class=" text-gray-400 mt-2 flex items-center gap-2">
         <RxEnvelopeClosed />
         {email}

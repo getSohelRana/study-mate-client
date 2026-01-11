@@ -9,7 +9,9 @@ import SignIn from "../components/signIn/SignIn";
 import SignUp from "../components/signUp/SignUp";
 import PrivateRoutes from "../provider/PrivateRoutes";
 import StudentProfile from "../components/studentProfile/StudentProfile";
+import StudentDetails from "../components/studentProfile/StudentDetails";
 import ForgetPassword from "../components/forgetPassword/ForgetPassword";
+import Loading from "../components/loading/Loading";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +25,18 @@ const router = createBrowserRouter([
       {
         path: "/find-partners",
         element: <FindPartners></FindPartners>,
+        loader: () => fetch("http://localhost:5000/students"),
+        hydrateFallbackElement: <Loading></Loading>,
+      },
+      {
+        path: "/student-details/:id",
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/students/${params.id}`),
+        element: (
+          <PrivateRoutes>
+            <StudentDetails></StudentDetails>
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/create-partner-profile",
@@ -45,22 +59,23 @@ const router = createBrowserRouter([
         element: <SignIn></SignIn>,
       },
       {
-        path : "/forget-password",
-        element : <ForgetPassword></ForgetPassword>
+        path: "/forget-password",
+        element: <ForgetPassword></ForgetPassword>,
       },
       {
         path: "/sign-up",
         element: <SignUp></SignUp>,
       },
       {
-        path : "/student-profile/:id",
-        loader : ({params}) => fetch(`http://localhost:5000/students/${params.id}`),
-        element : (
+        path: "/student-profile/:id",
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/students/${params.id}`),
+        element: (
           <PrivateRoutes>
             <StudentProfile></StudentProfile>
           </PrivateRoutes>
-        ) 
-      }
+        ),
+      },
     ],
   },
 ]);
