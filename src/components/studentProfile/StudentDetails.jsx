@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaRegStar, FaUsers } from "react-icons/fa";
 import { IoLocationOutline, IoTimeOutline } from "react-icons/io5";
 import { RxEnvelopeClosed } from "react-icons/rx";
 import { IoMdPaperPlane } from "react-icons/io";
 
 import { useLoaderData } from "react-router";
+import showToast from "../../utilities/toast";
+import AuthContext from "../../provider/AuthContext";
 
 const StudentDetails = () => {
   const studentDetails = useLoaderData();
-  console.log(studentDetails);
+  // console.log(studentDetails);
+  const { user } = useContext(AuthContext);
+  const [requestSent, setRequestSent] = useState(false);
 
   const {
     availabilityTime,
@@ -22,6 +26,40 @@ const StudentDetails = () => {
     studyMode,
     subject,
   } = studentDetails || {};
+
+  useEffect(() => {
+    setRequestSent(false);
+  }, [email]);
+
+  const handlePartnerCounts = async () => {
+    // to check already sent request
+    if (requestSent) {
+      showToast("warning", "You already sent a request ❗");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:5000/partnerCounts", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ ...studentDetails, requested_by: user.email }),
+      });
+
+      const data = await res.json();
+      // console.log(data);
+      if (data.insertedId) {
+        showToast(
+          "success",
+          `To ${name || "User"} Partner request send successfully,!`
+        );
+        setRequestSent(true);
+      }
+    } catch (error) {
+      // console.log(error);
+      showToast("error", error);
+    }
+  };
+
   return (
     <div>
       <div>
@@ -76,7 +114,10 @@ const StudentDetails = () => {
 
               {/* Actions  */}
               <div class="card-actions mt-4 w-full">
-                <button class="btn btn-primary w-full">
+                <button
+                  onClick={handlePartnerCounts}
+                  class="btn btn-primary w-full"
+                >
                   Send Partner Request <IoMdPaperPlane />
                 </button>
               </div>

@@ -50,7 +50,7 @@ const FindPartners = () => {
                 <img
                   src={student.profileimage}
                   alt={student.name}
-                  className="w-24 h-24 mx-auto rounded-full object-cover border"
+                  className="w-24 h-24 mx-auto rounded-full object-cover border-4 border-primary"
                 />
 
                 <h2 className="text-xl font-semibold mt-3">{student.name}</h2>
