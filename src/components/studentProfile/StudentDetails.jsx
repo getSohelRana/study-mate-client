@@ -29,12 +29,12 @@ const StudentDetails = () => {
 
   useEffect(() => {
     setRequestSent(false);
-  }, [email]);
+  }, [email, user?.email]);
 
   const handlePartnerCounts = async () => {
     // to check already sent request
     if (requestSent) {
-      showToast("warning", "You already sent a request ❗");
+      showToast("warning", "You already sent a request❗");
       return;
     }
 
@@ -43,11 +43,26 @@ const StudentDetails = () => {
       const res = await fetch("http://localhost:5000/partnerCounts", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ ...studentDetails, requested_by: user.email }),
+        body: JSON.stringify({
+          partnerId: studentDetails._id,
+          partnerEmail: email,
+          partnerName : name,
+          partnerPhoto: profileimage,
+          partnerSubject: subject,
+          partnerStudyMode : studyMode,
+          requested_by: user.email,
+        }),
       });
 
       const data = await res.json();
-      // console.log(data);
+      // console.log(data);    //
+      // duplicate request
+      if (data.message === "already_sent") {
+        showToast("warning", "You already sent a request ❗");
+        setRequestSent(true);
+        return;
+      }
+
       if (data.insertedId) {
         // PATCH → increment partner count and save backend
         const patchRes = await fetch(
