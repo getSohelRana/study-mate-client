@@ -14,6 +14,7 @@ const StudentDetails = () => {
   const { user } = useContext(AuthContext);
   const [requestSent, setRequestSent] = useState(false);
 
+
   const {
     availabilityTime,
     email,
@@ -26,6 +27,7 @@ const StudentDetails = () => {
     studyMode,
     subject,
   } = studentDetails || {};
+  const [updatePartnerCount, setUpdatePartnerCountUI] = useState(patnerCount);
 
   useEffect(() => {
     setRequestSent(false);
@@ -79,6 +81,10 @@ const StudentDetails = () => {
             `To ${name || "User"} Partner request send successfully,!`
           );
           setRequestSent(true);
+
+          // partner count auto update
+          setUpdatePartnerCountUI((prev) => prev + 1);
+
         }
       }
     } catch (error) {
@@ -130,7 +136,7 @@ const StudentDetails = () => {
                 </p>
                 <p className="flex items-center justify-center gap-2">
                   <FaUsers></FaUsers>
-                  <strong>Partner Count:</strong> {patnerCount}
+                  <strong>Partner Count:</strong> {updatePartnerCount}
                 </p>
               </div>
 
@@ -145,7 +151,12 @@ const StudentDetails = () => {
                   onClick={handlePartnerCounts}
                   class="btn btn-primary w-full"
                 >
-                  Send Partner Request <IoMdPaperPlane />
+                  {requestSent ? (
+                    "Already requested "
+                  ) : (
+                    "Send Partner Request"
+                  )}{" "}
+                  <IoMdPaperPlane />
                 </button>
               </div>
             </div>
