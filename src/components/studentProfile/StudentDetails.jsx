@@ -39,6 +39,7 @@ const StudentDetails = () => {
     }
 
     try {
+      //  POST → save partner request backend
       const res = await fetch("http://localhost:5000/partnerCounts", {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -48,15 +49,26 @@ const StudentDetails = () => {
       const data = await res.json();
       // console.log(data);
       if (data.insertedId) {
-        showToast(
-          "success",
-          `To ${name || "User"} Partner request send successfully,!`
+        // PATCH → increment partner count and save backend
+        const patchRes = await fetch(
+          `http://localhost:5000/partnerCounts/${studentDetails._id}`,
+          {
+            method: "PATCH",
+          }
         );
-        setRequestSent(true);
+
+        const patchData = await patchRes.json();
+        if (patchData.modifiedCount > 0) {
+          showToast(
+            "success",
+            `To ${name || "User"} Partner request send successfully,!`
+          );
+          setRequestSent(true);
+        }
       }
     } catch (error) {
-      // console.log(error);
-      showToast("error", error);
+      console.log(error);
+      showToast("error", "can not send request once more");
     }
   };
 
