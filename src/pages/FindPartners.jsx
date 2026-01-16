@@ -6,6 +6,7 @@ const FindPartners = () => {
   const studentsInfo = useLoaderData();
   const [searchStudents, setSearchStudents] = useState([]);
   const [searchFounds, setSearcthFounds] = useState(false);
+  const [loading, setLoading] = useState(false);
   const displayStudents = searchFounds ? searchStudents : studentsInfo;
 
   const handleSearch = (e) => {
@@ -13,14 +14,17 @@ const FindPartners = () => {
     const search_text = e.target.search.value.trim();
     // console.log(search_text);
     setSearcthFounds(true);
+    setLoading(true);
     e.target.reset();
 
     fetch(`http://localhost:5000/search?search=${search_text}`)
       .then((res) => res.json())
       .then((data) => {
         setSearchStudents(data);
+        setLoading(false);
         // console.log(data);
-      });
+      })
+      .catch(() => setLoading(false));
   };
   return (
     <div className="py-10">
@@ -61,9 +65,17 @@ const FindPartners = () => {
           </form>
         </div>
 
+        {/* ===== Loading ===== */}
+        {loading && (
+          <div className="flex justify-center items-center min-h-70 bg-base-100">
+            <span className="w-25 h-25 loading loading-ring loading-10xl"></span>
+          </div>
+        )}
+
         {/* ===== Cards Grid ===== */}
+
         {/* if search matched  */}
-        {displayStudents.length > 0 && (
+        {!loading && displayStudents.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {displayStudents.map((student) => (
               <div
@@ -108,9 +120,10 @@ const FindPartners = () => {
         )}
         {/* if not matched search data */}
         <div className="flex justify-center items-center min-h-50">
-          {searchFounds && searchStudents.length === 0 && (
+          {!loading && searchFounds && searchStudents.length === 0 && (
             <p className="text-center text-warning text-lg flex gap-2 items-center">
-              <FaSearch></FaSearch> No students matched your search, Try a different subject name.
+              <FaSearch></FaSearch> No students matched your search, Try a
+              different subject name.
             </p>
           )}
         </div>
