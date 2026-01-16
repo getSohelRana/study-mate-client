@@ -14,7 +14,6 @@ const StudentDetails = () => {
   const { user } = useContext(AuthContext);
   const [requestSent, setRequestSent] = useState(false);
 
-
   const {
     availabilityTime,
     email,
@@ -48,10 +47,10 @@ const StudentDetails = () => {
         body: JSON.stringify({
           partnerId: studentDetails._id,
           partnerEmail: email,
-          partnerName : name,
+          partnerName: name,
           partnerPhoto: profileimage,
           partnerSubject: subject,
-          partnerStudyMode : studyMode,
+          partnerStudyMode: studyMode,
           requested_by: user.email,
         }),
       });
@@ -84,7 +83,6 @@ const StudentDetails = () => {
 
           // partner count auto update
           setUpdatePartnerCountUI((prev) => prev + 1);
-
         }
       }
     } catch (error) {
@@ -151,11 +149,7 @@ const StudentDetails = () => {
                   onClick={handlePartnerCounts}
                   class="btn btn-primary w-full"
                 >
-                  {requestSent ? (
-                    "Already requested "
-                  ) : (
-                    "Send Partner Request"
-                  )}{" "}
+                  {requestSent ? "Already requested " : "Send Partner Request"}{" "}
                   <IoMdPaperPlane />
                 </button>
               </div>

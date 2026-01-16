@@ -1,16 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Link, useLoaderData } from "react-router";
 
 const FindPartners = () => {
   const studentsInfo = useLoaderData();
+  const [searchStudents, setSearchStudents] = useState([]);
+  const displayStudents =
+    searchStudents.length > 0 ? searchStudents : studentsInfo;
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const search_text = e.target.search.value;
+    console.log(search_text);
+
+    fetch(`http://localhost:5000/search?search=${search_text}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setSearchStudents(data);
+        console.log(data);
+      });
+  };
   return (
     <div className="py-10">
       <h1 className="text-2xl text-center mb-6">
         Total partners{" "}
         <span className="text-primary font-semibold">
-          {studentsInfo.length}
+          {displayStudents.length}
         </span>{" "}
         found.
       </h1>
@@ -19,7 +34,7 @@ const FindPartners = () => {
         {/* ===== Top Bar ===== */}
         <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-8">
           {/* Sort */}
-          <select className="select select-bordered w-full md:w-52">
+          <select className="select  w-full md:w-52 focus:outline-0 focus:border-primary">
             <option disabled selected>
               Sort By
             </option>
@@ -29,19 +44,24 @@ const FindPartners = () => {
           </select>
 
           {/* Search */}
-          <div className="relative w-full md:w-64">
-            <input
-              type="text"
-              placeholder="Search profile..."
-              className="input input-bordered w-full pl-10"
-            />
-            <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          </div>
+
+          <form onSubmit={handleSearch} className="flex gap-1">
+            <div className="relative w-full md:w-64">
+              <input
+                type="search"
+                name="search"
+                placeholder="Search profile..."
+                className="input w-full pl-10 focus:outline-0 focus:border-primary"
+              />
+              <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            </div>
+            <button className="btn btn-primary">Search</button>
+          </form>
         </div>
 
         {/* ===== Cards Grid ===== */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {studentsInfo.map((student) => (
+          {displayStudents.map((student) => (
             <div
               key={student._id}
               className="card bg-white shadow-md hover:shadow-xl transition"
@@ -70,7 +90,10 @@ const FindPartners = () => {
                 </div>
 
                 <div className="card-actions justify-center mt-4">
-                  <Link to = {`/student-details/${student._id}`} className="btn btn-primary btn-sm">
+                  <Link
+                    to={`/student-details/${student._id}`}
+                    className="btn btn-primary btn-sm"
+                  >
                     View Profile
                   </Link>
                 </div>
