@@ -7,6 +7,7 @@ const FindPartners = () => {
   const [searchStudents, setSearchStudents] = useState([]);
   const [searchFounds, setSearcthFounds] = useState(false);
   const [sortOrder, setSortOrder] = useState("desc");
+  const [filter, setFilter] = useState("");
   const [loading, setLoading] = useState(false);
   const displayStudents = searchFounds ? searchStudents : studentsInfo;
 
@@ -36,12 +37,30 @@ const FindPartners = () => {
     fetch(`http://localhost:5000/sort?sort=${order}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setSearchStudents(data);
         setSearcthFounds(true);
       })
       .finally(() => setLoading(false));
   };
+  //handle filter
+  const handleFilter = (e) => {
+    const level = e.target.value;
+    // console.log(level)
+    // if (!level) return;
+    setFilter(level);
+    setLoading(true);
+
+    fetch(`http://localhost:5000/filter?experienceLevel=${level}`)
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data);
+        setSearchStudents(data);
+        setSearcthFounds(true);
+      })
+      .finally(() => setLoading(false));
+  };
+
   return (
     <div className="py-10">
       <h1 className="text-2xl text-center mb-6">
@@ -57,7 +76,7 @@ const FindPartners = () => {
         <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-8">
           {/* Sort */}
           <select
-            className="select w-full md:w-52 focus:outline-0 focus:border-primary"
+            className="select w-full md:w-52"
             value={sortOrder}
             onChange={handleSortChange}
           >
@@ -65,7 +84,13 @@ const FindPartners = () => {
             <option value="desc">Experience: High → Low</option>
             <option value="asc">Experience: Low → High</option>
           </select>
-          <select className="select w-full md:w-52">
+
+          {/* filter */}
+          <select
+            className="select w-full md:w-52"
+            value={filter}
+            onChange={handleFilter}
+          >
             <option value="">All Experience</option>
             <option value="Beginner">Beginner</option>
             <option value="Intermediate">Intermediate</option>
