@@ -6,6 +6,7 @@ const FindPartners = () => {
   const studentsInfo = useLoaderData();
   const [searchStudents, setSearchStudents] = useState([]);
   const [searchFounds, setSearcthFounds] = useState(false);
+  const [sortOrder, setSortOrder] = useState("desc");
   const [loading, setLoading] = useState(false);
   const displayStudents = searchFounds ? searchStudents : studentsInfo;
 
@@ -26,6 +27,21 @@ const FindPartners = () => {
       })
       .catch(() => setLoading(false));
   };
+  // handle sort
+  const handleSortChange = (e) => {
+    const order = e.target.value;
+    setSortOrder(order);
+    setLoading(true);
+
+    fetch(`http://localhost:5000/sort?sort=${order}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setSearchStudents(data);
+        setSearcthFounds(true);
+      })
+      .finally(() => setLoading(false));
+  };
   return (
     <div className="py-10">
       <h1 className="text-2xl text-center mb-6">
@@ -40,13 +56,20 @@ const FindPartners = () => {
         {/* ===== Top Bar ===== */}
         <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-8">
           {/* Sort */}
-          <select className="select  w-full md:w-52 focus:outline-0 focus:border-primary">
-            <option disabled selected>
-              Sort By
-            </option>
-            <option>Name</option>
-            <option>Experience</option>
-            <option>Subject</option>
+          <select
+            className="select w-full md:w-52 focus:outline-0 focus:border-primary"
+            value={sortOrder}
+            onChange={handleSortChange}
+          >
+            <option disabled>Sort By</option>
+            <option value="desc">Experience: High → Low</option>
+            <option value="asc">Experience: Low → High</option>
+          </select>
+          <select className="select w-full md:w-52">
+            <option value="">All Experience</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
           </select>
 
           {/* Search */}
@@ -68,7 +91,7 @@ const FindPartners = () => {
         {/* ===== Loading ===== */}
         {loading && (
           <div className="flex justify-center items-center min-h-70 bg-base-100">
-            <span className="w-25 h-25 loading loading-ring loading-10xl"></span>
+            <span className="w-15 h-15 loading loading-ring loading-10xl"></span>
           </div>
         )}
 
