@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../provider/AuthContext";
+import Swal from "sweetalert2";
 
 const MyConnections = () => {
   const { user } = useContext(AuthContext);
@@ -10,11 +11,44 @@ const MyConnections = () => {
       fetch(`http://localhost:5000/my-connection?requested_by=${user.email}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           setMyConnection(data);
         });
     }
   }, [user?.email]);
+  // delete partner
+  const handleDeletePartner = (_id) => {
+    // console.log(_id)
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/partnerCounts/${_id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            // console.log(data)
+            if (data.deletedCount) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "The requested partner has been deleted successfully.",
+                icon: "success",
+              });
+              // remaining partner for ui auto updated
+              const remainingPartners = myConnection.filter(connect => connect._id !==_id);
+              setMyConnection(remainingPartners);
+            }
+          });
+      }
+    });
+  };
   return (
     <div className="py-10">
       <div>
@@ -36,13 +70,13 @@ const MyConnections = () => {
               <th>Profile</th>
               <th>Name</th>
               <th>Subject</th>
-              <th>Subject Mode</th>
+              <th>Study Mode</th>
               <th className="text-center">Action</th>
             </tr>
           </thead>
           <tbody>
             {myConnection.map((connection, index) => (
-              <tr>
+              <tr key={index}>
                 {/* s.l no */}
                 <td>{index + 1}</td>
                 <td>
@@ -65,7 +99,12 @@ const MyConnections = () => {
                 <th>
                   <div className="flex justify-center items-center gap-2">
                     <button className="btn btn-primary btn-xs">Update</button>
-                    <button className="btn btn-error btn-xs">Delate</button>
+                    <button
+                      className="btn btn-error btn-xs"
+                      onClick={() => handleDeletePartner(connection._id)}
+                    >
+                      Delate
+                    </button>
                   </div>
                 </th>
               </tr>
