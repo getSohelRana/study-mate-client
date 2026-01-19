@@ -1,24 +1,69 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../../provider/AuthContext";
+import showToast from "../../utilities/toast";
 
 const UpdateMyProfile = () => {
   const { user } = useContext(AuthContext);
   const [error, setError] = useState("");
-	const [myProfile , setMyProfile] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [myProfile, setMyProfile] = useState(null);
 
-// get logged user data
-	useEffect(()=> {
-		fetch(`http://localhost:5000/my-profile?email=${user?.email}`)
-		.then(res => res.json())
-		.then(data => {
-			console.log(data)
-			setMyProfile(data)
-		})
-	}, [user?.email])
+  // get logged user data
+  useEffect(() => {
+    // check logged user email
+    if (!user?.email) return;
+    // get logged user data
+    fetch(`http://localhost:5000/my-profile?email=${user?.email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data);
+        setMyProfile(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+				console.log(err)
+        setError("Failed to fetch profile");
+        setLoading(false);
+      });
+  }, [user?.email]);
 
-	// update logged user profile data
+  // update logged user profile data
   const handleUpdateMyProfile = (e) => {
     e.preventDefault();
+		if(!myProfile) return;
+    // updated profile data
+    const updatedProfile = {
+      name: e.target.name.value,
+      subject: e.target.subject.value,
+      studyMode: e.target.studyMode.value,
+      availabilityTime: e.target.availabilityTime.value,
+      location: e.target.location.value,
+      experienceLevel: e.target.experienceLevel.value,
+    };
+    // console.log(myProfile._id)
+
+    //save updated profile data backend
+		setLoading(true)
+    fetch(`http://localhost:5000/students/${myProfile._id}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(updatedProfile),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        showToast("success", "Profile updated successfully");
+				setLoading(false);
+
+        //  update local state
+        setMyProfile((prev) => ({ ...prev, ...updatedProfile }));
+      })
+      .catch((err) => {
+				console.error(err);
+        showToast("error", "Failed to update profile");
+        setLoading(false);
+			});
   };
   return (
     <div className="my-10">
@@ -40,8 +85,8 @@ const UpdateMyProfile = () => {
                 name="name"
                 className="input input-bordered w-full"
                 placeholder="Name"
-								readOnly
-                defaultValue={user?.displayName}
+                readOnly
+                defaultValue={myProfile?.name}
               />
             </div>
             {/* subject */}
@@ -54,6 +99,7 @@ const UpdateMyProfile = () => {
                 name="subject"
                 className="input input-bordered w-full"
                 placeholder="Subject name"
+                defaultValue={myProfile?.subject}
               />
             </div>
             {/* subject mode */}
@@ -66,7 +112,7 @@ const UpdateMyProfile = () => {
                 name="studyMode"
                 className="input input-bordered w-full"
                 placeholder="Online or Offline"
-                
+                defaultValue={myProfile?.studyMode}
               />
             </div>
             {/* Availability Time */}
@@ -79,6 +125,7 @@ const UpdateMyProfile = () => {
                 name="availabilityTime"
                 className="input input-bordered w-full"
                 placeholder="Availability time"
+                defaultValue={myProfile?.availabilityTime}
               />
             </div>
             {/* Location */}
@@ -91,6 +138,7 @@ const UpdateMyProfile = () => {
                 name="location"
                 className="input input-bordered w-full"
                 placeholder="Location"
+                defaultValue={myProfile?.location}
               />
             </div>
             {/* Experience Level */}
@@ -103,6 +151,7 @@ const UpdateMyProfile = () => {
                 name="experienceLevel"
                 className="input input-bordered w-full"
                 placeholder="Experience Level"
+                defaultValue={myProfile?.experienceLevel}
               />
             </div>
             {/* Email */}
@@ -115,8 +164,8 @@ const UpdateMyProfile = () => {
                 name="email"
                 className="input input-bordered w-full"
                 placeholder="email"
-								readOnly
-                defaultValue={user?.email}
+                readOnly
+                defaultValue={myProfile?.email}
               />
             </div>
 
