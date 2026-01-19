@@ -67,14 +67,15 @@ const UpdateMyProfile = () => {
   };
   return (
     <div className="my-10">
+      <title> Update Your Profile</title>
       <div className="mb-10">
-        <h1 className="text-center sm:text-2xl text-primary font-semibold">
+        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 text-primary">
           Update your profile information!
         </h1>
       </div>
       <div>
         <form onSubmit={handleUpdateMyProfile}>
-          <div className="max-w-xl mx-auto space-y-4">
+          <div className="max-w-xl mx-auto space-y-4 shadow-lg bg-white rounded-lg p-6">
             {/* Name */}
             <div>
               <label className="label">

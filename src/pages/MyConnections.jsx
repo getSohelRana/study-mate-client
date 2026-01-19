@@ -6,10 +6,8 @@ import { Link } from "react-router";
 const MyConnections = () => {
   const { user } = useContext(AuthContext);
   const [myConnection, setMyConnection] = useState([]);
-  const [myProfile, setMyProfile] = useState([]);
-  const myProfileModalRef = useRef(null);
+  const [loading, setLoading] = useState(false)
 
-  // console.log(user.email)
   useEffect(() => {
     if (user?.email) {
       fetch(`http://localhost:5000/my-connection?requested_by=${user.email}`)
@@ -17,6 +15,7 @@ const MyConnections = () => {
         .then((data) => {
           // console.log(data);
           setMyConnection(data);
+          setLoading(false)
         });
     }
   }, [user?.email]);
@@ -58,6 +57,7 @@ const MyConnections = () => {
   };
   return (
     <div className="py-10">
+      <title>My Connection</title>
       <div>
         <h1 className="text-2xl text-center mb-7">
           You have requested{" "}
@@ -117,7 +117,7 @@ const MyConnections = () => {
                       className="btn btn-error btn-xs"
                       onClick={() => handleDeletePartner(connection._id)}
                     >
-                      Delate
+                      Delete
                     </button>
                   </div>
                 </th>

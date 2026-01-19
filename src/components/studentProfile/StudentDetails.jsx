@@ -94,7 +94,7 @@ const StudentDetails = () => {
   return (
     <div>
       <div>
-        <title> Student Profile</title>
+        <title> Student Profile Details</title>
         <div class="flex justify-center p-4">
           <div class="card w-full max-w-md bg-white shadow">
             {/* Profile Image */}

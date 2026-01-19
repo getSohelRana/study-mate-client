@@ -63,6 +63,7 @@ const FindPartners = () => {
 
   return (
     <div className="py-10">
+      <title> Find partners</title>
       <h1 className="text-2xl text-center mb-6">
         Total partners{" "}
         <span className="text-primary font-semibold">
