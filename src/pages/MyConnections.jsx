@@ -1,10 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import AuthContext from "../provider/AuthContext";
 import Swal from "sweetalert2";
+import { Link } from "react-router";
 
 const MyConnections = () => {
   const { user } = useContext(AuthContext);
   const [myConnection, setMyConnection] = useState([]);
+  const [myProfile, setMyProfile] = useState([]);
+  const myProfileModalRef = useRef(null);
+
   // console.log(user.email)
   useEffect(() => {
     if (user?.email) {
@@ -16,6 +20,7 @@ const MyConnections = () => {
         });
     }
   }, [user?.email]);
+
   // delete partner
   const handleDeletePartner = (_id) => {
     // console.log(_id)
@@ -24,7 +29,7 @@ const MyConnections = () => {
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#00c497",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
@@ -42,7 +47,9 @@ const MyConnections = () => {
                 icon: "success",
               });
               // remaining partner for ui auto updated
-              const remainingPartners = myConnection.filter(connect => connect._id !==_id);
+              const remainingPartners = myConnection.filter(
+                (connect) => connect._id !== _id,
+              );
               setMyConnection(remainingPartners);
             }
           });
@@ -52,12 +59,12 @@ const MyConnections = () => {
   return (
     <div className="py-10">
       <div>
-        <h1 className="text-2xl text-center mb-6">
-          Total partners{" "}
+        <h1 className="text-2xl text-center mb-7">
+          You have requested{" "}
           <span className="text-primary font-semibold">
             {myConnection.length}
           </span>{" "}
-          found.
+          partners
         </h1>
       </div>
       {/* table */}
@@ -98,7 +105,14 @@ const MyConnections = () => {
                 <td>{connection.partnerStudyMode}</td>
                 <th>
                   <div className="flex justify-center items-center gap-2">
-                    <button className="btn btn-primary btn-xs">Update</button>
+                    {/* update btn */}
+                    <Link
+                      className="btn btn-primary btn-xs"
+                      to="/update-my-profile"
+                    >
+                      update
+                    </Link>
+                    {/* delete btn */}
                     <button
                       className="btn btn-error btn-xs"
                       onClick={() => handleDeletePartner(connection._id)}

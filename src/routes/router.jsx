@@ -12,6 +12,7 @@ import StudentProfile from "../components/studentProfile/StudentProfile";
 import StudentDetails from "../components/studentProfile/StudentDetails";
 import ForgetPassword from "../components/forgetPassword/ForgetPassword";
 import Loading from "../components/loading/Loading";
+import UpdateMyProfile from "../components/updateMyProfile/UpdateMyProfile";
 
 const router = createBrowserRouter([
   {
@@ -76,6 +77,12 @@ const router = createBrowserRouter([
           </PrivateRoutes>
         ),
       },
+      {
+        path : "/update-my-profile",
+        element : <PrivateRoutes>
+          <UpdateMyProfile></UpdateMyProfile>
+        </PrivateRoutes>
+      }
     ],
   },
 ]);
