@@ -10,12 +10,14 @@ const MyConnections = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:5000/my-connection?requested_by=${user.email}`)
+      fetch(
+        `https://study-mate-server-virid.vercel.app/my-connection?requested_by=${user.email}`,
+      )
         .then((res) => res.json())
         .then((data) => {
           // console.log(data);
           setMyConnection(data);
-          setLoading(false)
+          setLoading(false);
         });
     }
   }, [user?.email]);
@@ -33,9 +35,12 @@ const MyConnections = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/partnerCounts/${_id}`, {
-          method: "DELETE",
-        })
+        fetch(
+          `https://study-mate-server-virid.vercel.app/partnerCounts/${_id}`,
+          {
+            method: "DELETE",
+          },
+        )
           .then((res) => res.json())
           .then((data) => {
             // console.log(data)

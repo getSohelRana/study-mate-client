@@ -46,7 +46,9 @@ const CreatePartnerProfile = () => {
     }
     try {
       // ✅ Check if email already exists
-      const res = await fetch(`http://localhost:5000/students?email=${email}`);
+      const res = await fetch(
+        `https://study-mate-server-virid.vercel.app/students?email=${email}`,
+      );
       const existing = await res.json();
       if (existing.length > 0) {
         setError("A profile with this email already exists.");
@@ -65,7 +67,7 @@ const CreatePartnerProfile = () => {
         rating,
         patnerCount: partnerCount,
       };
-      await fetch("http://localhost:5000/students", {
+      await fetch("https://study-mate-server-virid.vercel.app/students", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(newStudent),

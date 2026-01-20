@@ -19,7 +19,9 @@ const FindPartners = () => {
     setLoading(true);
     e.target.reset();
 
-    fetch(`http://localhost:5000/search?search=${search_text}`)
+    fetch(
+      `https://study-mate-server-virid.vercel.app/search?search=${search_text}`,
+    )
       .then((res) => res.json())
       .then((data) => {
         setSearchStudents(data);
@@ -34,7 +36,7 @@ const FindPartners = () => {
     setSortOrder(order);
     setLoading(true);
 
-    fetch(`http://localhost:5000/sort?sort=${order}`)
+    fetch(`https://study-mate-server-virid.vercel.app/sort?sort=${order}`)
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
@@ -51,7 +53,9 @@ const FindPartners = () => {
     setFilter(level);
     setLoading(true);
 
-    fetch(`http://localhost:5000/filter?experienceLevel=${level}`)
+    fetch(
+      `https://study-mate-server-virid.vercel.app/filter?experienceLevel=${level}`,
+    )
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);

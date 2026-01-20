@@ -41,19 +41,22 @@ const StudentDetails = () => {
 
     try {
       //  POST → save partner request backend
-      const res = await fetch("http://localhost:5000/partnerCounts", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          partnerId: studentDetails._id,
-          partnerEmail: email,
-          partnerName: name,
-          partnerPhoto: profileimage,
-          partnerSubject: subject,
-          partnerStudyMode: studyMode,
-          requested_by: user.email,
-        }),
-      });
+      const res = await fetch(
+        "https://study-mate-server-virid.vercel.app/partnerCounts",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            partnerId: studentDetails._id,
+            partnerEmail: email,
+            partnerName: name,
+            partnerPhoto: profileimage,
+            partnerSubject: subject,
+            partnerStudyMode: studyMode,
+            requested_by: user.email,
+          }),
+        },
+      );
 
       const data = await res.json();
       // console.log(data);    //
@@ -67,10 +70,10 @@ const StudentDetails = () => {
       if (data.insertedId) {
         // PATCH → increment partner count and save backend
         const patchRes = await fetch(
-          `http://localhost:5000/partnerCounts/${studentDetails._id}`,
+          `https://study-mate-server-virid.vercel.app/partnerCounts/${studentDetails._id}`,
           {
             method: "PATCH",
-          }
+          },
         );
 
         const patchData = await patchRes.json();

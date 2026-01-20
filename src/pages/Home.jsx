@@ -1,9 +1,11 @@
-import React from 'react';
-import Carousel from "../components/home/carousel/Carousel"
-import HowItWorks from '../components/home/HowItWorks';
-import Testimonials from '../components/home/Testimonials';
-import TopStudents from '../components/home/TopStudents';
-const topStudentsPromise = fetch('http://localhost:5000/top-rated-students').then(res => res.json());
+import React from "react";
+import Carousel from "../components/home/carousel/Carousel";
+import HowItWorks from "../components/home/HowItWorks";
+import Testimonials from "../components/home/Testimonials";
+import TopStudents from "../components/home/TopStudents";
+const topStudentsPromise = fetch(
+  "https://study-mate-server-virid.vercel.app/top-rated-students",
+).then((res) => res.json());
 const Home = () => {
   return (
     <div>
@@ -19,7 +21,6 @@ const Home = () => {
       {/* testimonials content goes here */}
       <Testimonials></Testimonials>
     </div>
-
   );
 };
 

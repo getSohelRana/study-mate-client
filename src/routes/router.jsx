@@ -26,13 +26,16 @@ const router = createBrowserRouter([
       {
         path: "/find-partners",
         element: <FindPartners></FindPartners>,
-        loader: () => fetch("http://localhost:5000/students"),
+        loader: () =>
+          fetch("https://study-mate-server-virid.vercel.app/students"),
         hydrateFallbackElement: <Loading></Loading>,
       },
       {
         path: "/student-details/:id",
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/students/${params.id}`),
+          fetch(
+            `https://study-mate-server-virid.vercel.app/students/${params.id}`,
+          ),
         element: (
           <PrivateRoutes>
             <StudentDetails></StudentDetails>
@@ -70,7 +73,9 @@ const router = createBrowserRouter([
       {
         path: "/student-profile/:id",
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/students/${params.id}`),
+          fetch(
+            `https://study-mate-server-virid.vercel.app/students/${params.id}`,
+          ),
         element: (
           <PrivateRoutes>
             <StudentProfile></StudentProfile>
@@ -78,11 +83,13 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path : "/update-my-profile",
-        element : <PrivateRoutes>
-          <UpdateMyProfile></UpdateMyProfile>
-        </PrivateRoutes>
-      }
+        path: "/update-my-profile",
+        element: (
+          <PrivateRoutes>
+            <UpdateMyProfile></UpdateMyProfile>
+          </PrivateRoutes>
+        ),
+      },
     ],
   },
 ]);

@@ -74,7 +74,7 @@ const SignUp = () => {
         image: photo,
       };
 
-      await fetch("http://localhost:5000/users", {
+      await fetch("https://study-mate-server-virid.vercel.app/users", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(newUser),

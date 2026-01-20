@@ -13,7 +13,9 @@ const UpdateMyProfile = () => {
     // check logged user email
     if (!user?.email) return;
     // get logged user data
-    fetch(`http://localhost:5000/my-profile?email=${user?.email}`)
+    fetch(
+      `https://study-mate-server-virid.vercel.app/my-profile?email=${user?.email}`,
+    )
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
@@ -21,7 +23,7 @@ const UpdateMyProfile = () => {
         setLoading(false);
       })
       .catch((err) => {
-				console.log(err)
+        console.log(err);
         setError("Failed to fetch profile");
         setLoading(false);
       });
@@ -44,26 +46,29 @@ const UpdateMyProfile = () => {
 
     //save updated profile data backend
 		setLoading(true)
-    fetch(`http://localhost:5000/students/${myProfile._id}`, {
-      method: "PATCH",
-      headers: {
-        "content-type": "application/json",
+    fetch(
+      `https://study-mate-server-virid.vercel.app/students/${myProfile._id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(updatedProfile),
       },
-      body: JSON.stringify(updatedProfile),
-    })
+    )
       .then((res) => res.json())
       .then(() => {
         showToast("success", "Profile updated successfully");
-				setLoading(false);
+        setLoading(false);
 
         //  update local state
         setMyProfile((prev) => ({ ...prev, ...updatedProfile }));
       })
       .catch((err) => {
-				console.error(err);
+        console.error(err);
         showToast("error", "Failed to update profile");
         setLoading(false);
-			});
+      });
   };
   return (
     <div className="my-10">
