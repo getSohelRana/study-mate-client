@@ -107,7 +107,7 @@ const SignUp = () => {
         image: user.photoURL,
       };
 
-      await fetch("http://localhost:5000/users", {
+      await fetch("https://study-mate-server-virid.vercel.app/users", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(newUser),
@@ -117,7 +117,7 @@ const SignUp = () => {
       navigate(redirectTo);
     } catch (err) {
       showToast("error" , `Sign in failed: ${err.message || err}` )
-      // console.error("Google sign-in error:", err);
+      console.error("Google sign-in error:", err);
     }
   };
 

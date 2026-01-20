@@ -9,7 +9,9 @@ const Testimonials = () => {
     fetch("/testimonials.json")
       .then((res) => res.json())
       .then((data) => setReview(data))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err)
+      });
   }, []);
 
   return (

@@ -9,7 +9,7 @@ const HowItWorks = () => {
     fetch("/steps.json")
       .then((res) => res.json())
       .then((data) => setSteps(data))
-      .catch((err) => console.log("Failed to load steps:", err));
+      // .catch((err) => console.log("Failed to load steps:", err));
   }, []);
   return (
     <div className="py-16 bg-base-200 my-20">

@@ -47,7 +47,7 @@ const SignIn = () => {
           image: res.user.photoURL,
         };
         // create user on databse
-        fetch("http://localhost:5000/users", {
+        fetch("https://study-mate-server-virid.vercel.app/users", {
           method: "POST",
           headers: {
             "content-type": "application/json",
@@ -56,7 +56,7 @@ const SignIn = () => {
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log("data afer saving", data);
+            // console.log("data afer saving", data);
           });
         showToast("success", `Account creatd successfully, ${user.displayName || "User"}!`)
         navigate(`${location.state ? location.state : "/"}`);

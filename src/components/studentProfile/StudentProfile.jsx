@@ -6,7 +6,7 @@ import { useLoaderData } from 'react-router';
 
 const StudentProfile = () => {
   const studentdata = useLoaderData();
-  console.log(studentdata)
+  // console.log(studentdata)
   const {availabilityTime, email, experienceLevel, location, name, patnerCount, rating, profileimage, studyMode, subject} = studentdata || {};
   return (
     <div>
