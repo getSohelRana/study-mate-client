@@ -129,7 +129,7 @@ const FindPartners = () => {
             {displayStudents.map((student) => (
               <div
                 key={student._id}
-                className="card bg-white shadow-md hover:shadow-xl transition"
+                className="card bg-base-300 shadow-md hover:shadow-xl transition"
               >
                 <div className="card-body text-center">
                   <img

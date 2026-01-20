@@ -96,7 +96,7 @@ const StudentDetails = () => {
       <div>
         <title> Student Profile Details</title>
         <div class="flex justify-center p-4">
-          <div class="card w-full max-w-md bg-white shadow">
+          <div class="card w-full max-w-md bg-base-300 shadow">
             {/* Profile Image */}
             <figure class="px-6 pt-6">
               <img
@@ -108,7 +108,7 @@ const StudentDetails = () => {
 
             {/* Card body */}
             <div class="card-body items-center text-center space-y-2">
-              <h2 class="card-title text-xl font-bold">{name}</h2>
+              <h2 class=" text-xl font-bold">{name}</h2>
 
               <p class="text-sm flex gap-2 text-gray-500 items-center">
                 <IoLocationOutline />

@@ -69,7 +69,7 @@ const ForgetPassword = () => {
   return (
     <div>
       <div className="min-h-screen flex items-center justify-center">
-        <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-8">
+        <div className="w-full max-w-md bg-base-300 shadow-lg rounded-2xl p-8">
           {/* Title */}
           <div className="mb-10">
             <h2 className="text-2xl font-bold text-center">Forgot Password?</h2>

@@ -15,7 +15,7 @@ const Testimonials = () => {
   return (
     <div className="py-10 md:py-16 my-10 md:my-20">
       <div className="px-4 md:px-8">
-        <h2 className="text-center text-2xl md:text-4xl font-bold text-gray-800 mb-2">
+        <h2 className="text-center text-2xl md:text-4xl font-bold  mb-2">
           What Students Say About StudyMate
         </h2>
 

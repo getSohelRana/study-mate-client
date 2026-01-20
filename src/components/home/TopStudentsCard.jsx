@@ -6,7 +6,7 @@ const TopStudentsCard = ({ topStudent }) => {
   const {_id, name, profileimage, subject, experienceLevel, rating } =
     topStudent || {};
   return (
-    <div className="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+    <div className="bg-base-300 rounded-2xl shadow-md p-6 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
       {/* Profile Image */}
       <figure className="flex justify-center mb-4">
         <img
@@ -43,7 +43,10 @@ const TopStudentsCard = ({ topStudent }) => {
         </div>
       </div>
       <div className="mt-4">
-      <Link to={`/student-profile/${_id}`} className="btn w-full rounded-3xl"> View Profile</Link>
+        <Link to={`/student-profile/${_id}`} className="btn w-full rounded-3xl">
+          {" "}
+          View Profile
+        </Link>
       </div>
     </div>
   );

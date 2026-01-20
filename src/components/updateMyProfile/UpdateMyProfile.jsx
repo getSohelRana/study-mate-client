@@ -75,7 +75,7 @@ const UpdateMyProfile = () => {
       </div>
       <div>
         <form onSubmit={handleUpdateMyProfile}>
-          <div className="max-w-xl mx-auto space-y-4 shadow-lg bg-white rounded-lg p-6">
+          <div className="max-w-xl mx-auto space-y-4 shadow-lg bg-base-300 rounded-lg p-6">
             {/* Name */}
             <div>
               <label className="label">

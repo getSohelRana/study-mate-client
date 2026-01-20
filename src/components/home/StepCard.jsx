@@ -4,7 +4,7 @@ const StepCard = ({step}) => {
   const {id , title , img} = step || {}
   
   return (
-     <div className="card bg-white shadow-xl p-5 rounded-xl text-center relative hover:scale-105 transition-all duration-300">
+    <div className="card bg-base-300 shadow-xl p-5 rounded-xl text-center relative hover:scale-105 transition-all duration-300">
       <div className="flex justify-center mb-3">
         <div className="w-15 h-15 flex items-center justify-center bg-primary text-white font-bold rounded-full shadow absolute  -top-8">
           {id}
@@ -18,7 +18,6 @@ const StepCard = ({step}) => {
       <h3 className="font-semibold text-lg">{title}</h3>
 
       <p className="text-gray-600 mt-2 text-sm">{step.desc}</p>
-
     </div>
   );
 };

@@ -80,7 +80,7 @@ const SignIn = () => {
       </div>
 
       {/* RIGHT SIDE */}
-      <div className="lg:w-1/2 w-full flex justify-center items-center p-10 bg-white rounded-xl">
+      <div className="lg:w-1/2 w-full flex justify-center items-center p-10 bg-base-300 rounded-xl">
         <div className="w-full max-w-md">
           <h2 className="text-3xl font-bold text-center text-primary">
             Sign In
@@ -155,7 +155,7 @@ const SignIn = () => {
             {/* GOOGLE BUTTON */}
             <button
               onClick={handleSignInGoogle}
-              className="btn w-full mt-3 bg-white border text-gray-700 hover:bg-gray-100"
+              className="btn w-full mt-3 bg-base-300 border text-gray-700 hover:bg-gray-100"
             >
               <img
                 src="https://www.svgrepo.com/show/475656/google-color.svg"

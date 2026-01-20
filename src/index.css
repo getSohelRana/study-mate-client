@@ -6,15 +6,14 @@
 
 /*DaisyUI Theme Setup*/
 @plugin "daisyui";
-@plugin "daisyui/theme" {
-  name: "light";
-  default: true;
-  --color-primary: #00c497;
-  --color-secondary: #313647;
-  --color-base-100: #f1f2f4;
-  --color-base-200: #b7e5cd;
-  --color-base-300: #686D76;
+
+/* DaisyUI Global Config */
+@plugin "daisyui" {
+  themes:
+    light --default,
+    dark --prefersdark;
 }
+
 
 /*Global Styles*/
 body {
@@ -88,4 +87,21 @@ body {
   .animate-play-shadow {
     animation: playShadow 1.8s infinite ease-out;
   }
+}
+
+/* Light Theme */
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #00c497;
+  --color-secondary: #313647;
+  --color-base-100: #f1f2f4;
+  --color-base-200: #b7e5cd;
+  --color-base-300: #fff;
+}
+
+/* Dark Theme */
+@plugin "daisyui/theme" {
+  name: "dark";
+  --color-primary: #313647;
 }
